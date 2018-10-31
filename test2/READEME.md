@@ -12,7 +12,7 @@ Oracle有一个开发者角色resource，可以创建表、过程、触发器等
 对于以下的对象名称con_res_view，new_user，在实验的时候应该修改为自己的名称。
 
 第1步：以system登录到pdborcl，创建角色con_res_view和用户new_user，并授权和分配空间：
-(''')
+```
 $ sqlplus system/123@pdborcl
 SQL> CREATE ROLE con_res_view;
 Role created.
@@ -25,12 +25,12 @@ User altered.
 SQL> GRANT con_res_view TO new_user;
 Grant succeeded.
 SQL> exit
-(''')
+```
 ![image](https://github.com/zengxuepeibox/Oracle/blob/master/test2/pit1.png)
 语句“ALTER USER new_user QUOTA 50M ON users;”是指授权new_user用户访问users表空间，空间限额是50M。
 
 第2步：新用户new_user连接到pdborcl，创建表mytable和视图myview，插入数据，最后将myview的SELECT对象权限授予hr用户。
-(''')
+```
 $ sqlplus new_user/123@pdborcl
 SQL> show user;
 USER is "NEW_USER"
@@ -50,10 +50,10 @@ wang
 SQL> GRANT SELECT ON myview TO hr;
 Grant succeeded.
 SQL>exit
-(''')
+```
 ![image](https://github.com/zengxuepeibox/Oracle/blob/master/test2/pit2.png)
 第3步：用户hr连接到pdborcl，查询new_user授予它的视图myview
-(''')
+```
 $ sqlplus hr/123@pdborcl
 SQL> SELECT * FROM new_user.myview;
 NAME
@@ -61,7 +61,7 @@ NAME
 zhang
 wang
 SQL> exit
-(''')
+```
 ![image](https://github.com/zengxuepeibox/Oracle/blob/master/test2/pit3.png)
 测试一下同学用户之间的表的共享，只读共享和读写共享都测试一下。
 
@@ -70,7 +70,7 @@ SQL> exit
 
 查看数据库的使用情况
 以下样例查看表空间的数据库文件，以及每个文件的磁盘占用情况。
-(''')
+```
 
 $ sqlplus system/123@pdborcl
 
@@ -84,7 +84,7 @@ SQL>SELECT a.tablespace_name "表空间名",Total/1024/1024 "大小MB",
        (SELECT tablespace_name,Sum(bytes)total FROM dba_data_files
         group  BY tablespace_name)b
  where  a.tablespace_name = b.tablespace_name;
- (''')
+ ```
  ![image](https://github.com/zengxuepeibox/Oracle/blob/master/test2/pit4.png)
 autoextensible是显示表空间中的数据文件是否自动增加。
 MAX_MB是指数据文件的最大容量。
