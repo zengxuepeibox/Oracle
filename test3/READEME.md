@@ -116,7 +116,9 @@ insert into orders
 select *
 from order_details;
 ```
-## 插入后查询结果脚本输出  
+## 插入后查询结果脚本输出 
+![image](https://github.com/zengxuepeibox/Oracle/blob/master/test3/1.png)
+![image](https://github.com/zengxuepeibox/Oracle/blob/master/test3/2.png)
 
 ## 分区查询
 ```SELECT
@@ -124,12 +126,19 @@ from order_details;
 FROM orders partition (PARTITION_BEFORE_2018), order_details partition (PARTITION_BEFORE_2018);
 
 select * from order_details ode join orders ods
-	on ode.order_id=ods.order_id;```
+	on ode.order_id=ods.order_id;
+```
 ## 查询脚本  
+![image](https://github.com/zengxuepeibox/Oracle/blob/master/test3/3.png)
+![image](https://github.com/zengxuepeibox/Oracle/blob/master/test3/4.png)
 
 ## 不分区查询
+
 select * from orders, order_details where orders.order_id = order_details.order_id(+)；
-## 查询脚本  
+
+## 查询脚本
+![image](https://github.com/zengxuepeibox/Oracle/blob/master/test3/5.png)
+![image](https://github.com/zengxuepeibox/Oracle/blob/master/test3/6.png)
 
 ## 对比分析
 两张表均有上万条数据，从表ORDER_DETAILS跟主表ORDERS建立了主外键，orders表按照时间分成三个表空间，通过分区和不分区实验结果对比，分区表查 询的资源占比明显高出很多，查询速度快了不少。 通过分区， 查询时就不用扫描整张表，而是一块区域一块区域的去查找，这样就会快不少。
